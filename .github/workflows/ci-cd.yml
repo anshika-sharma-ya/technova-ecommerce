@@ -7,7 +7,8 @@ on:
     branches: [ main, master ]
 
 jobs:
-  test-backend:
+  lint-and-test:
+    name: Lint & Automated Tests
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -16,11 +17,12 @@ jobs:
         with:
           node-version: 18
       - name: Install Backend Dependencies
-        run: cd backend && npm ci
-      - name: Run Backend Tests
+        run: cd backend && npm install
+      - name: Run Backend Unit & Integration Tests
         run: cd backend && npm test
 
-  test-frontend:
+  build-frontend:
+    name: Build Frontend React SPA
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -29,12 +31,13 @@ jobs:
         with:
           node-version: 18
       - name: Install Frontend Dependencies
-        run: cd frontend && npm ci
-      - name: Build Frontend Application
+        run: cd frontend && npm install
+      - name: Build Frontend Production Assets
         run: cd frontend && npm run build
 
   build-docker:
-    needs: [test-backend, test-frontend]
+    name: Build Docker Containers
+    needs: [lint-and-test, build-frontend]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -44,3 +47,12 @@ jobs:
         run: docker build -t ecommerce-backend:latest ./backend
       - name: Build Frontend Docker Image
         run: docker build -t ecommerce-frontend:latest ./frontend
+
+  deploy-staging:
+    name: Deploy to Staging Environment
+    needs: build-docker
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Run Staging Deployment Script
+        run: bash aws-deploy.sh
