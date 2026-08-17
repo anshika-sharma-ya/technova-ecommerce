@@ -10,39 +10,45 @@ jobs:
   lint-and-test:
     name: Lint & Automated Tests
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./backend
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Use Node.js 18
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: 18
       - name: Install Backend Dependencies
-        run: cd backend && npm install
+        run: npm install
       - name: Run Backend Unit & Integration Tests
-        run: cd backend && npm test
+        run: npm test
 
   build-frontend:
     name: Build Frontend React SPA
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./frontend
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Use Node.js 18
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: 18
       - name: Install Frontend Dependencies
-        run: cd frontend && npm install
+        run: npm install
       - name: Build Frontend Production Assets
-        run: cd frontend && npm run build
+        run: npm run build
 
   build-docker:
     name: Build Docker Containers
     needs: [lint-and-test, build-frontend]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
+        uses: docker/setup-buildx-action@v3
       - name: Build Backend Docker Image
         run: docker build -t ecommerce-backend:latest ./backend
       - name: Build Frontend Docker Image
@@ -53,6 +59,6 @@ jobs:
     needs: build-docker
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Run Staging Deployment Script
         run: bash aws-deploy.sh
