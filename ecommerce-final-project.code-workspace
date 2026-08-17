@@ -1,0 +1,20 @@
+{
+  "folders": [
+    {
+      "name": "Full-Stack E-Commerce Project",
+      "path": "."
+    },
+    {
+      "name": "Backend REST API",
+      "path": "./backend"
+    },
+    {
+      "name": "Frontend React App",
+      "path": "./frontend"
+    }
+  ],
+  "settings": {
+    "editor.tabSize": 2,
+    "liveServer.settings.multiRootWorkspaceName": "Full-Stack E-Commerce Project"
+  }
+}
