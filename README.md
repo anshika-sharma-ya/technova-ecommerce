@@ -1,6 +1,6 @@
-# NovaStore — Full-Stack E-Commerce Final Internship Project
+# TechNova — Full-Stack E-Commerce Final Internship Project
 
-NovaStore is a comprehensive, production-ready full-stack e-commerce web application built to fulfill all requirements for the Full Stack React & Node Training Final Project.
+TechNova is a comprehensive, production-ready full-stack e-commerce web application built to fulfill all requirements for the Full Stack React & Node Training Final Project.
 
 ---
 
