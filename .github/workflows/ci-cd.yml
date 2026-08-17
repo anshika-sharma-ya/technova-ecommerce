@@ -18,10 +18,12 @@ jobs:
           node-version: 18
       - name: Install Backend Dependencies
         working-directory: ./backend
-        run: npm install
+        run: |
+          npm install
+          chmod +x node_modules/.bin/* || true
       - name: Run Backend Unit & Integration Tests
         working-directory: ./backend
-        run: npm test
+        run: npx jest --detectOpenHandles --forceExit
 
   build-frontend:
     name: Build Frontend React SPA
@@ -34,7 +36,9 @@ jobs:
           node-version: 18
       - name: Install Frontend Dependencies
         working-directory: ./frontend
-        run: npm install
+        run: |
+          npm install
+          chmod +x node_modules/.bin/* || true
       - name: Build Frontend Production Assets
         working-directory: ./frontend
         run: npm run build
