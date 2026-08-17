@@ -9,7 +9,7 @@ export const SocketProvider = ({ children }) => {
 
   useEffect(() => {
     const newSocket = io('http://localhost:5000', {
-      transports: ['websocket', 'polling'],
+      transports: ['polling', 'websocket'],
     });
 
     newSocket.on('connect', () => {

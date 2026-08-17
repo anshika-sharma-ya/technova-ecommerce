@@ -10,9 +10,6 @@ jobs:
   lint-and-test:
     name: Lint & Automated Tests
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./backend
     steps:
       - uses: actions/checkout@v4
       - name: Use Node.js 18
@@ -20,16 +17,15 @@ jobs:
         with:
           node-version: 18
       - name: Install Backend Dependencies
+        working-directory: ./backend
         run: npm install
       - name: Run Backend Unit & Integration Tests
+        working-directory: ./backend
         run: npm test
 
   build-frontend:
     name: Build Frontend React SPA
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./frontend
     steps:
       - uses: actions/checkout@v4
       - name: Use Node.js 18
@@ -37,8 +33,10 @@ jobs:
         with:
           node-version: 18
       - name: Install Frontend Dependencies
+        working-directory: ./frontend
         run: npm install
       - name: Build Frontend Production Assets
+        working-directory: ./frontend
         run: npm run build
 
   build-docker:
